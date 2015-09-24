@@ -1,13 +1,13 @@
 Tasks
 =====
-A simple task library for Arduino, using setjmp/longjmp inspired by [LWP](https://github.com/jscrane/lwp).
+A simple task library for Arduino, using setjmp/longjmp, inspired by [LWP](https://github.com/jscrane/lwp).
 
 Example
 -------
     
     #include <Tasks.h>
 
-    Semaphore off, on;
+    Semaphore off(1), on(0);
 
     void run() {
         for (;;) {
@@ -22,8 +22,6 @@ Example
     
     void setup() {
         Tasks::init();
-        off.begin(1);
-        on.begin(0);
         task.begin();
         pinMode(0, OUTPUT);
     }
