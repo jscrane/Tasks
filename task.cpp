@@ -48,6 +48,5 @@ void task_create(task_t *t, void *stack, void (*entry)()) {
 		t->context[0]._jb[_JBLEN-5] = (sp & 0xff);
 		t->context[0]._jb[_JBLEN-1] = (e >> 8);
 		t->context[0]._jb[_JBLEN-2] = (e & 0xff);
-		queue_add(&ready, t);
 	}
 }

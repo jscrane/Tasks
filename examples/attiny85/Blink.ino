@@ -2,31 +2,34 @@
 #include <Tasks.h>
 
 TinyDebugSerial serial;
-static task_t task;
-static word stack[128];
-static sem_t sem;
+
+Semaphore off, on;
 
 void run() {
 	for (;;) {
+		on.wait();
 		serial.println("0");
 		digitalWrite(0, LOW);
 		delay(1000);
-		sem_signal(&sem);
-		task_yield();
+		off.signal();
 	}
 }
+
+Task<128> task(run);
 
 void setup() {
 	serial.begin(115200);
 	task_init();
-	task_create(&task, &stack[127], run);
-	sem_init(&sem, 0);
+	off.begin(1);
+	on.begin(0);
+	task.begin();
 	pinMode(0, OUTPUT);
 }
 
 void loop() {
+	off.wait();
 	serial.println("1");
 	digitalWrite(0, HIGH);
 	delay(1000);
-	sem_wait(&sem);
+	on.signal();
 }

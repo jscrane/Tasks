@@ -23,4 +23,19 @@ void sem_wait(sem_t *s);
  */
 void sem_signal(sem_t *s);
 
+class Semaphore: public semaphore {
+public:
+	inline void begin(unsigned count) {
+		sem_init(this, count);
+	}
+
+	inline void signal() {
+		sem_signal(this);
+	}
+
+	inline void wait() {
+		sem_wait(this);
+	}
+};
+
 #endif

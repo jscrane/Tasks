@@ -35,4 +35,19 @@ void task_create(task_t *t, void *stack, void (*entry)());
  */
 void task_yield(void);
 
+template<unsigned N>
+class Task: public task {
+public:
+	Task(void (*entry)()) {
+		task_create(this, &_stack[N-1], entry);
+	}
+
+	inline void begin() {
+		queue_add(&ready, this);
+	}
+
+private:
+	unsigned _stack[N];
+};
+
 #endif
