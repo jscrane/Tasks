@@ -5,5 +5,4 @@ To do:
 - thread exit handling
 - integration with Interrupted
 - more examples
-- try with atmegas
-- msp430 and friends
+- try with atmegas, msp430, etc.

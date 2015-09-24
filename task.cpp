@@ -1,7 +1,7 @@
 #include <setjmp.h>
-#include "Tasks.h"
+#include "task.h"
 
-static task_t *remove(task_queue_t *q) {
+task_t *queue_remove(task_queue_t *q) {
 	task_t *t = q->head;
 	q->head = t->next;
 	if (!q->head)
@@ -9,7 +9,7 @@ static task_t *remove(task_queue_t *q) {
 	return t;
 }
 
-static void add(task_queue_t *q, task_t *t) {
+void queue_add(task_queue_t *q, task_t *t) {
 	if (q->tail)
 		q->tail->next = t;
 	else
@@ -18,11 +18,11 @@ static void add(task_queue_t *q, task_t *t) {
 	t->next = 0;
 }
 
-static task_t *curr;
-static task_queue_t ready;
+task_t *curr;
+task_queue_t ready;
 
-static void reschedule(void) {
-	task_t * volatile run = remove(&ready);
+void task_reschedule(void) {
+	task_t * volatile run = queue_remove(&ready);
 
 	if (run != curr)
 		if (setjmp(curr->context) == 0) {
@@ -32,8 +32,8 @@ static void reschedule(void) {
 }
 
 void task_yield(void) {
-	add(&ready, curr);
-	reschedule();
+	queue_add(&ready, curr);
+	task_reschedule();
 }
 
 void task_init(void) {
@@ -48,27 +48,6 @@ void task_create(task_t *t, void *stack, void (*entry)()) {
 		t->context[0]._jb[_JBLEN-5] = (sp & 0xff);
 		t->context[0]._jb[_JBLEN-1] = (e >> 8);
 		t->context[0]._jb[_JBLEN-2] = (e & 0xff);
-		add(&ready, t);
+		queue_add(&ready, t);
 	}
 }
-
-void sem_init(sem_t *s, unsigned count) {
-	s->count = count;
-	s->waiting.head = s->waiting.tail = 0;
-}
-
-void sem_wait(sem_t *s) {
-	if (s->count == 0) {
-		add(&s->waiting, curr);
-		reschedule();	
-	} else
-		s->count--;
-}
-
-void sem_signal(sem_t *s) {
-	if (s->waiting.head)
-		add(&ready, remove(&s->waiting));
-	else
-		s->count++;
-}
-

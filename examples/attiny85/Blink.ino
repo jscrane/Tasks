@@ -1,5 +1,4 @@
 #include <TinyDebugSerial.h>
-#include <setjmp.h>
 #include <Tasks.h>
 
 TinyDebugSerial serial;
