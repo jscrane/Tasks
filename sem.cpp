@@ -2,23 +2,18 @@
 #include "task.h"
 #include "sem.h"
 
-void sem_init(sem_t *s, unsigned count) {
-	s->count = count;
-	s->waiting.head = s->waiting.tail = 0;
-}
-
-void sem_wait(sem_t *s) {
-	if (s->count == 0) {
-		queue_add(&s->waiting, curr);
-		task_reschedule();	
+void Semaphore::wait() {
+	if (_count == 0) {
+		_waiting.add(curr);
+		Tasks::reschedule();
 	} else
-		s->count--;
+		_count--;
 }
 
-void sem_signal(sem_t *s) {
-	if (s->waiting.head)
-		queue_add(&ready, queue_remove(&s->waiting));
+void Semaphore::signal() {
+	if (_waiting.empty())
+		_count++;
 	else
-		s->count++;
+		ready.add(_waiting.remove());
 }
 

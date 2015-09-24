@@ -1,5 +1,7 @@
 */*.bin
 */*.elf
+*/*.eep
 */*.o
 */libcore.a
 */.lib
+*/.deps

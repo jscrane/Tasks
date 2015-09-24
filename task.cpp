@@ -1,28 +1,28 @@
 #include <setjmp.h>
 #include "task.h"
 
-task_t *queue_remove(task_queue_t *q) {
-	task_t *t = q->head;
-	q->head = t->next;
-	if (!q->head)
-		q->tail = 0;
+task *task_queue::remove() {
+	task *t = _head;
+	_head = t->next;
+	if (empty())
+		_tail = 0;
 	return t;
 }
 
-void queue_add(task_queue_t *q, task_t *t) {
-	if (q->tail)
-		q->tail->next = t;
+void task_queue::add(task *t) {
+	if (_tail)
+		_tail->next = t;
 	else
-		q->head = t;
-	q->tail = t;
+		_head = t;
+	_tail = t;
 	t->next = 0;
 }
 
-task_t *curr;
-task_queue_t ready;
+task *curr;
+task_queue ready;
 
-void task_reschedule(void) {
-	task_t * volatile run = queue_remove(&ready);
+void Tasks::reschedule(void) {
+	task * volatile run = ready.remove();
 
 	if (run != curr)
 		if (setjmp(curr->context) == 0) {
@@ -31,17 +31,17 @@ void task_reschedule(void) {
 		}
 }
 
-void task_yield(void) {
-	queue_add(&ready, curr);
-	task_reschedule();
+void Tasks::yield(void) {
+	ready.add(curr);
+	reschedule();
 }
 
-void task_init(void) {
-	static task_t main;
+void Tasks::init(void) {
+	static task main;
 	curr = &main;
 }
 
-void task_create(task_t *t, void *stack, void (*entry)()) {
+void task_create(task *t, void *stack, void (*entry)()) {
 	if (setjmp(t->context) == 0) {
 		unsigned sp = (unsigned)stack, e = (unsigned)entry;
 		t->context[0]._jb[_JBLEN-4] = (sp >> 8);

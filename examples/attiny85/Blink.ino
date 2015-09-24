@@ -3,7 +3,7 @@
 
 TinyDebugSerial serial;
 
-Semaphore off, on;
+Semaphore off(1), on(0);
 
 void run() {
 	for (;;) {
@@ -19,9 +19,7 @@ Task<128> task(run);
 
 void setup() {
 	serial.begin(115200);
-	task_init();
-	off.begin(1);
-	on.begin(0);
+	Tasks::init();
 	task.begin();
 	pinMode(0, OUTPUT);
 }

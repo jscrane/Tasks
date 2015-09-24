@@ -4,36 +4,30 @@
 typedef struct task {
 	struct task *next;
 	jmp_buf context;
-} task_t;
+};
 
-extern task_t *curr;
+extern task *curr;
 
-typedef struct task_queue {
-	task_t *head, *tail;
-} task_queue_t;
+class task_queue {
+public:
+	task_queue() { _head = _tail = 0; }
 
-extern task_queue_t ready;
+	task *remove();
 
-task_t *queue_remove(task_queue_t *q);
+	void add(task *t);
 
-void queue_add(task_queue_t *q, task_t *t);
+	inline bool empty() { return _head == 0; }
 
-void task_reschedule(void);
+private:
+	task *_head, *_tail;
+};
 
-/*
- * initialises the task library: call from setup().
- */
-void task_init(void);
+extern task_queue ready;
 
 /*
  * creates a new task, with task block, stack pointer and entry-point.
  */
-void task_create(task_t *t, void *stack, void (*entry)());
-
-/*
- * yields control to another (ready) task.
- */
-void task_yield(void);
+void task_create(task *t, void *stack, void (*entry)());
 
 template<unsigned N>
 class Task: public task {
@@ -43,11 +37,26 @@ public:
 	}
 
 	inline void begin() {
-		queue_add(&ready, this);
+		ready.add(this);
 	}
 
 private:
 	unsigned _stack[N];
+};
+
+class Tasks {
+public:
+	/*
+	 * initialises the task library: call from setup().
+	 */
+	static void init(void);
+
+	/*
+	 * yields control to another (ready) task.
+	 */
+	static void yield(void);
+
+	static void reschedule(void);
 };
 
 #endif
