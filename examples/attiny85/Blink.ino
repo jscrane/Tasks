@@ -20,7 +20,7 @@ Task<128> task(run);
 void setup() {
 	serial.begin(115200);
 	Tasks::init();
-	task.begin();
+	Tasks::ready(&task);
 	pinMode(0, OUTPUT);
 }
 

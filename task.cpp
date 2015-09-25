@@ -18,35 +18,30 @@ void task_queue::add(task *t) {
 	t->next = 0;
 }
 
-task *curr;
-task_queue ready;
+task *Tasks::_curr;
+task_queue Tasks::_ready;
 
 void Tasks::reschedule(void) {
-	task * volatile run = ready.remove();
+	task * volatile run = _ready.remove();
 
-	if (run != curr)
-		if (setjmp(curr->context) == 0) {
-			curr = run;
-			longjmp(curr->context, 1);
+	if (run != _curr)
+		if (setjmp(_curr->context) == 0) {
+			_curr = run;
+			longjmp(_curr->context, 1);
 		}
-}
-
-void Tasks::yield(void) {
-	ready.add(curr);
-	reschedule();
 }
 
 void Tasks::init(void) {
 	static task main;
-	curr = &main;
+	_curr = &main;
 }
 
-void task_create(task *t, void *stack, void (*entry)()) {
-	if (setjmp(t->context) == 0) {
+void task::create(void *stack, void (*entry)()) {
+	if (setjmp(context) == 0) {
 		unsigned sp = (unsigned)stack, e = (unsigned)entry;
-		t->context[0]._jb[_JBLEN-4] = (sp >> 8);
-		t->context[0]._jb[_JBLEN-5] = (sp & 0xff);
-		t->context[0]._jb[_JBLEN-1] = (e >> 8);
-		t->context[0]._jb[_JBLEN-2] = (e & 0xff);
+		context[0]._jb[_JBLEN-4] = (sp >> 8);
+		context[0]._jb[_JBLEN-5] = (sp & 0xff);
+		context[0]._jb[_JBLEN-1] = (e >> 8);
+		context[0]._jb[_JBLEN-2] = (e & 0xff);
 	}
 }

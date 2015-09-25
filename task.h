@@ -1,12 +1,7 @@
 #ifndef __TASK_H__
 #define __TASK_H__
 
-typedef struct task {
-	struct task *next;
-	jmp_buf context;
-};
-
-extern task *curr;
+class task;
 
 class task_queue {
 public:
@@ -22,22 +17,19 @@ private:
 	task *_head, *_tail;
 };
 
-extern task_queue ready;
+class task {
+public:
+	struct task *next;
+	jmp_buf context;
 
-/*
- * creates a new task, with task block, stack pointer and entry-point.
- */
-void task_create(task *t, void *stack, void (*entry)());
+	void create(void *stack, void (*entry)());
+};
 
 template<unsigned N>
 class Task: public task {
 public:
 	Task(void (*entry)()) {
-		task_create(this, &_stack[N-1], entry);
-	}
-
-	inline void begin() {
-		ready.add(this);
+		create(&_stack[N-1], entry);
 	}
 
 private:
@@ -52,11 +44,29 @@ public:
 	static void init(void);
 
 	/*
+	 * makes a task runnable.
+	 */
+	static inline void ready(task *t) {
+		_ready.add(t);
+	}
+
+	/*
 	 * yields control to another (ready) task.
 	 */
-	static void yield(void);
+	static inline void yield(void) {
+		ready(_curr);
+		reschedule();
+	}
 
 	static void reschedule(void);
+
+	static inline task *current(void) {
+		return _curr;
+	}
+
+private:
+	static task *_curr;
+	static task_queue _ready;
 };
 
 #endif
