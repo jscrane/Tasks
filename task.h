@@ -1,22 +1,6 @@
 #ifndef __TASK_H__
 #define __TASK_H__
 
-class task;
-
-class task_queue {
-public:
-	task_queue() { _head = _tail = 0; }
-
-	task *remove();
-
-	void add(task *t);
-
-	inline bool empty() { return _head == 0; }
-
-private:
-	task *_head, *_tail;
-};
-
 class task {
 public:
 	struct task *next;
@@ -34,6 +18,20 @@ public:
 
 private:
 	unsigned _stack[N];
+};
+
+class task_queue {
+public:
+	task_queue() { _head = _tail = 0; }
+
+	task *remove();
+
+	void add(task *t);
+
+	inline bool empty() { return _head == 0; }
+
+private:
+	task *_head, *_tail;
 };
 
 class Tasks {
@@ -58,11 +56,11 @@ public:
 		reschedule();
 	}
 
-	static void reschedule(void);
-
 	static inline task *current(void) {
 		return _curr;
 	}
+
+	static void reschedule(void);
 
 private:
 	static task *_curr;
