@@ -22,7 +22,7 @@ Example
     
     void setup() {
         Tasks::init();
-        task.begin();
+        Tasks::ready(&task);
         pinMode(0, OUTPUT);
     }
 
