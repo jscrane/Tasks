@@ -23,10 +23,10 @@ task_queue Tasks::_ready;
 runnable Tasks::_idle_handler;
 
 void Tasks::reschedule(void) {
-	task * volatile run = _ready.remove();
-	if (!run)
+	while (_ready.empty())
 		_idle_handler();
 
+	task * volatile run = _ready.remove();
 	if (run != _curr)
 		if (setjmp(_curr->context) == 0) {
 			_curr = run;

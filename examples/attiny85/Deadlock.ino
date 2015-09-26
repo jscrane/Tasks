@@ -15,13 +15,11 @@ void run() {
 Task<128> task(run);
 
 void idle() {
-	for (;;) {
-		serial.println("deadlock!");
-		digitalWrite(0, HIGH);
-		delay(200);
-		digitalWrite(0, LOW);
-		delay(300);
-	}
+	serial.println("deadlock!");
+	digitalWrite(0, HIGH);
+	delay(200);
+	digitalWrite(0, LOW);
+	delay(300);
 }
 
 void setup() {

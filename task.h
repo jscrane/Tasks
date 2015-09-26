@@ -64,6 +64,11 @@ public:
 
 	static void reschedule(void);
 
+	/*
+	 * sets a handler to be called when no task is runnable,
+	 * by default (on ATtiny at least) the processor will jump
+	 * to the reset vector.
+	 */
 	static inline void set_idle_handler(runnable idle_handler) {
 		_idle_handler = idle_handler;
 	}
