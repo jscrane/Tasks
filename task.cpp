@@ -20,9 +20,12 @@ void task_queue::add(task *t) {
 
 task *Tasks::_curr;
 task_queue Tasks::_ready;
+runnable Tasks::_idle_handler;
 
 void Tasks::reschedule(void) {
 	task * volatile run = _ready.remove();
+	if (!run)
+		_idle_handler();
 
 	if (run != _curr)
 		if (setjmp(_curr->context) == 0) {

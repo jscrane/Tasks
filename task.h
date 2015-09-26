@@ -1,18 +1,20 @@
 #ifndef __TASK_H__
 #define __TASK_H__
 
+typedef void (*runnable)(void);
+
 class task {
 public:
 	struct task *next;
 	jmp_buf context;
 
-	void create(void *stack, void (*entry)());
+	void create(void *stack, runnable entry);
 };
 
 template<unsigned N>
 class Task: public task {
 public:
-	Task(void (*entry)()) {
+	Task(runnable entry) {
 		create(&_stack[N-1], entry);
 	}
 
@@ -62,9 +64,13 @@ public:
 
 	static void reschedule(void);
 
+	static inline void set_idle_handler(runnable idle_handler) {
+		_idle_handler = idle_handler;
+	}
 private:
 	static task *_curr;
 	static task_queue _ready;
+	static runnable _idle_handler;
 };
 
 #endif

@@ -1,3 +1,4 @@
 BOARD := t85db
-SKETCH := Blink.ino
+SKETCH := Deadlock.ino
+#SKETCH := Blink.ino
 include arduino-tiny.mk
