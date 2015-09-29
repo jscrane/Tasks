@@ -18,6 +18,18 @@ void task_queue::add(task *t) {
 	t->next = 0;
 }
 
+void task_queue::insert(task *p, task *t) {
+	if (p) {
+		t->next = p->next;
+		p->next = t;
+		if (p == _tail)
+			_tail = t;
+	} else {
+		t->next = _head;
+		_head = t;
+	}
+}
+
 task *Tasks::_curr;
 task_queue Tasks::_ready;
 runnable Tasks::_idle_handler;

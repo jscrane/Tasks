@@ -8,6 +8,8 @@ public:
 	struct task *next;
 	jmp_buf context;
 
+	unsigned long wake;
+
 	void create(void *stack, runnable entry);
 };
 
@@ -31,6 +33,10 @@ public:
 	void add(task *t);
 
 	inline bool empty() { return _head == 0; }
+
+	inline task *head() { return _head; }
+
+	void insert(task *p, task *t);
 
 private:
 	task *_head, *_tail;
