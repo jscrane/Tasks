@@ -50,14 +50,6 @@ public:
 		_ready.add(t);
 	}
 
-	/*
-	 * yields control to another (ready) task.
-	 */
-	static inline void yield(void) {
-		ready(_curr);
-		reschedule();
-	}
-
 	static inline task *current(void) {
 		return _curr;
 	}

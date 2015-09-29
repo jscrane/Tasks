@@ -14,7 +14,7 @@ void run() {
 
 Task<128> task(run);
 
-void idle() {
+void deadlock() {
 	serial.println("deadlock!");
 	digitalWrite(0, HIGH);
 	delay(200);
@@ -27,7 +27,7 @@ void setup() {
 	serial.println("hello world");
 	Tasks::init();
 	Tasks::ready(&task);
-	Tasks::set_idle_handler(idle);
+	Tasks::set_idle_handler(deadlock);
 	pinMode(0, OUTPUT);
 }
 
