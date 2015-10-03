@@ -1,4 +1,5 @@
 #include <TinyDebugSerial.h>
+#include <Interrupted.h>
 #include <Tasks.h>
 
 TinyDebugSerial serial;

@@ -1,4 +1,5 @@
 #include <TinyDebugSerial.h>
+#include <Interrupted.h>
 #include <Tasks.h>
 
 TinyDebugSerial serial;
@@ -6,7 +7,6 @@ TinyDebugSerial serial;
 Semaphore off(1), on(0);
 
 class Blink: public Task<128> {
-public:
 	void loop() {
 		on.wait();
 		serial.println("0");
