@@ -9,20 +9,19 @@ Example
 
     Semaphore off(1), on(0);
 
-    void run() {
-        for (;;) {
+    class Blink: public Task<128> {
+    public:
+        public void loop() {
             on.wait();
             digitalWrite(0, LOW);
             delay(1000);
-        	off.signal();
+            off.signal();
         }
-    }
+    } blink;
 
-    Task<128> task(run);
-    
     void setup() {
         Tasks::init();
-        Tasks::ready(&task);
+        Tasks::ready(blink);
         pinMode(0, OUTPUT);
     }
 
@@ -38,6 +37,7 @@ Remarks
 * There are two tasks, one explicitly created, and the other implicit (i.e., 
 the "main task").
 * Tasks are of equal priority and run until completion, i.e., until they
-run out of things to do; by blocking on a semaphore or explicitly yielding
-the processor.
-* In the example, two tasks coordinate turning an LED off and on using two semaphores.
+run out of things to do; by blocking on a semaphore or other synchronization
+object.
+* In the example, two tasks coordinate turning an LED off and on using two 
+semaphores.
