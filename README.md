@@ -10,8 +10,7 @@ Example
     Semaphore off(1), on(0);
 
     class Blink: public Task<128> {
-    public:
-        public void loop() {
+        void loop() {
             on.wait();
             digitalWrite(0, LOW);
             delay(1000);
