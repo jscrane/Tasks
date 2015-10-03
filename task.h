@@ -5,17 +5,24 @@ typedef void (*runnable)(void);
 
 class task {
 public:
+	// FIXME: clean up access permissions
 	struct task *next;
 	jmp_buf context;
 
-	void create(void *stack, runnable entry);
+protected:
+	virtual void setup() {};
+	virtual void loop() {};
+
+	void create(void *stack);
+private:
+	static void entry();
 };
 
 template<unsigned N>
 class Task: public task {
 public:
-	Task(runnable entry) {
-		create(&_stack[N-1], entry);
+	Task() {
+		create(&_stack[N-1]);
 	}
 
 private:
@@ -46,13 +53,11 @@ public:
 	/*
 	 * makes a task runnable.
 	 */
-	static inline void ready(task *t) {
-		_ready.add(t);
-	}
+	static inline void ready(task *t) { _ready.add(t); }
 
-	static inline task *current(void) {
-		return _curr;
-	}
+	static inline void ready(task &t) { ready(&t); }
+
+	static inline task *current(void) { return _curr; }
 
 	static void reschedule(void);
 

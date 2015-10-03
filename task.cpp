@@ -39,12 +39,18 @@ void Tasks::init(void) {
 	_curr = &main;
 }
 
-void task::create(void *stack, void (*entry)()) {
-	if (setjmp(context) == 0) {
-		unsigned sp = (unsigned)stack, e = (unsigned)entry;
-		context[0]._jb[_JBLEN-4] = (sp >> 8);
-		context[0]._jb[_JBLEN-5] = (sp & 0xff);
-		context[0]._jb[_JBLEN-1] = (e >> 8);
-		context[0]._jb[_JBLEN-2] = (e & 0xff);
-	}
+void task::entry() {
+	task * volatile t = Tasks::current();
+	t->setup();
+	for (;;)
+		t->loop();
+}
+
+void task::create(void *stack) {
+	setjmp(context);
+	unsigned sp = (unsigned)stack, e = (unsigned)entry;
+	context[0]._jb[_JBLEN-4] = (sp >> 8);
+	context[0]._jb[_JBLEN-5] = (sp & 0xff);
+	context[0]._jb[_JBLEN-1] = (e >> 8);
+	context[0]._jb[_JBLEN-2] = (e & 0xff);
 }

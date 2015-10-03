@@ -5,16 +5,16 @@ TinyDebugSerial serial;
 
 Semaphore sem(0);
 
-void run() {
-	for (;;) {
+class Deadlock: public Task<128> {
+public:
+	void loop() {
 		serial.println("run");
 		sem.wait();
 	}
-}
 
-Task<128> task(run);
+} deadlock;
 
-void deadlock() {
+void on_deadlock() {
 	serial.println("deadlock!");
 	digitalWrite(0, HIGH);
 	delay(200);
@@ -26,8 +26,8 @@ void setup() {
 	serial.begin(115200);
 	serial.println("hello world");
 	Tasks::init();
-	Tasks::ready(&task);
-	Tasks::set_idle_handler(deadlock);
+	Tasks::ready(deadlock);
+	Tasks::set_idle_handler(on_deadlock);
 	pinMode(0, OUTPUT);
 }
 
