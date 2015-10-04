@@ -9,9 +9,10 @@ public:
 	struct task *next;
 	jmp_buf context;
 
+	virtual void begin() {}
 protected:
-	virtual void setup() {};
-	virtual void loop() {};
+	virtual void setup() {}
+	virtual void loop() {}
 
 	void create(void *stack);
 private:
@@ -21,7 +22,7 @@ private:
 template<unsigned N>
 class Task: public task {
 public:
-	Task() {
+	void begin() {
 		create(&_stack[N-1]);
 	}
 
@@ -55,7 +56,13 @@ public:
 	 */
 	static inline void ready(task *t) { _ready.add(t); }
 
-	static inline void ready(task &t) { ready(&t); }
+	/*
+	 * initialises a task and makes it runnable.
+	 */
+	static inline void start(task &t) { 
+		t.begin();
+		ready(&t); 
+	}
 
 	static inline task *current(void) { return _curr; }
 

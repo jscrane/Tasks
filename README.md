@@ -20,7 +20,7 @@ Example
 
     void setup() {
         Tasks::init();
-        Tasks::ready(blink);
+        Tasks::start(blink);
         pinMode(0, OUTPUT);
     }
 
