@@ -1,6 +1,6 @@
-BOARD := t85db
-#SKETCH := Deadlock.ino
+IDE_HOME := /usr/local/arduino
+BOARD := uno
 #SKETCH := Blink.ino
 SKETCH := Devices.ino
 CXXFLAGS = -fno-threadsafe-statics
-include arduino-tiny.mk
+include arduino15.mk
