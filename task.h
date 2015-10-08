@@ -7,7 +7,9 @@ class task {
 public:
 	// FIXME: clean up access permissions
 	struct task *next;
-	jmp_buf context;
+
+	inline int save() { return setjmp(_context); }
+	inline void restore() { longjmp(_context, 1); }
 
 	virtual void begin() {}
 protected:
@@ -17,6 +19,7 @@ protected:
 	void create(void *stack);
 private:
 	static void entry();
+	jmp_buf _context;
 };
 
 template<unsigned N>

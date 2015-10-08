@@ -28,9 +28,9 @@ void Tasks::reschedule(void) {
 		_idle_handler();
 
 	if (run != _curr)
-		if (setjmp(_curr->context) == 0) {
+		if (_curr->save() == 0) {
 			_curr = run;
-			longjmp(_curr->context, 1);
+			_curr->restore();
 		}
 }
 
@@ -47,10 +47,10 @@ void task::entry() {
 }
 
 void task::create(void *stack) {
-	setjmp(context);
+	setjmp(_context);
 	unsigned sp = (unsigned)stack, e = (unsigned)entry;
-	context[0]._jb[_JBLEN-4] = (sp >> 8);
-	context[0]._jb[_JBLEN-5] = (sp & 0xff);
-	context[0]._jb[_JBLEN-1] = (e >> 8);
-	context[0]._jb[_JBLEN-2] = (e & 0xff);
+	_context[0]._jb[_JBLEN-4] = (sp >> 8);
+	_context[0]._jb[_JBLEN-5] = (sp & 0xff);
+	_context[0]._jb[_JBLEN-1] = (e >> 8);
+	_context[0]._jb[_JBLEN-2] = (e & 0xff);
 }
