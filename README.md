@@ -50,8 +50,8 @@ Each sketch has a collection of devices which wake it up under interrupt.
 
 Extending Interrupted for tasks requires a few changes:
 
-- only sleeping the processor when no task is runnable,
-- permitting tasks to 'interrupt' each other.
+- only powering-down the processor when no task is runnable,
+- permitting tasks to 'interrupt' each other, using pseudo-devices.
 
 Here's a simple example, for the Arduino Uno:
 
