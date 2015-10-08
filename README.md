@@ -34,12 +34,13 @@ Example
 Remarks
 -------
 * There are two tasks, one explicitly created (Blink), and the other implicit 
-(the "main task").
+(the "main task"). 
+* An explicit task has its own stack whose size is specified by the template 
+argument (here 128 words).
 * Tasks are of equal priority and run until completion --- until they
 run out of things to do; by blocking on a semaphore or other synchronization
 object.
-* In the example, two tasks coordinate turning an LED off and on using two 
-semaphores.
+* The tasks coordinate turning an LED off and on using two semaphores.
 
 Integration with Interrupted
 ----------------------------
