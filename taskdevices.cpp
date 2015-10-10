@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <setjmp.h>
 #include <device.h>
 #include "task.h"

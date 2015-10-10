@@ -22,15 +22,15 @@ private:
 	jmp_buf _context;
 };
 
-template<unsigned N>
+template<unsigned WORDS>
 class Task: public task {
 public:
 	void begin() {
-		create(&_stack[N-1]);
+		create(&_stack[WORDS-1]);
 	}
 
 private:
-	unsigned _stack[N];
+	unsigned _stack[WORDS];
 };
 
 class task_queue {
