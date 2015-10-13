@@ -4,5 +4,6 @@
 #include <setjmp.h>
 #include "task.h"
 #include "sem.h"
+#include "taskdevices.h"
 
 #endif
