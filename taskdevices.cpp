@@ -33,4 +33,5 @@ void TaskDevices::on_no_task_runnable() {
 		Tasks::ready(_sleeping.remove());
 
 	_soft_irq = false;
+	_mode = MODE_NONE;
 }
