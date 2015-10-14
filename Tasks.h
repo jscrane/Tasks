@@ -5,5 +5,6 @@
 #include "task.h"
 #include "sem.h"
 #include "taskdevices.h"
+#include "pseudo.h"
 
 #endif
