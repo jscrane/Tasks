@@ -1,5 +1,6 @@
 To do:
 ======
-- per-thread sleeping
-- more examples
-- port to msp430, etc.
+- per-thread sleeping (pseudo device for select time)
+- port to msp430g2553
+- dining philosophers (with LEDs)
+- more examples...

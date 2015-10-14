@@ -56,8 +56,6 @@ Extending Interrupted for tasks requires a few changes:
 Here's a simple example, for the Arduino Uno:
 
     #include <Tasks.h>
-    #include <taskdevices.h>
-    #include <pseudo.h>
     
     #define TIMER   1
     #define SIG     2
