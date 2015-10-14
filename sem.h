@@ -8,6 +8,8 @@ public:
 	 */
 	Semaphore(unsigned count): _count(count) {}
 
+	Semaphore(): _count(0) {}
+
 	/*
 	 * if a task is waiting on the semaphore, releases it, otherwise
 	 * increments its count.
