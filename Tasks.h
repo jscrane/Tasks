@@ -5,9 +5,7 @@
 #include "task.h"
 #include "sem.h"
 
-#ifdef __INTERRUPTED_H__
 #include "taskdevices.h"
 #include "pseudo.h"
-#endif
 
 #endif
