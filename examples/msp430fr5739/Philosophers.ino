@@ -21,7 +21,7 @@ void eating(byte id, byte weight) {
 	Tasks::reschedule();
 }
 
-class Philosopher: public Task<50> {
+class Philosopher: public Task<40> {
 public:
 	void setup() {
 		_id = ids++;
