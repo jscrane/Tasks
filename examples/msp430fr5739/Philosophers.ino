@@ -1,7 +1,7 @@
 #include <Interrupted.h>
 #include <Tasks.h>
 
-#define MAX	6
+#define MAX	5
 
 Semaphore forks[MAX];
 static byte ids = 1;
@@ -14,14 +14,15 @@ void eating(byte id, byte weight) {
 	Serial.println(weight);
 
 	digitalWrite(leds[id], HIGH);
-	delay(500);
-	digitalWrite(leds[id], LOW);
 
+	delay(500);
 	Tasks::ready(Tasks::current());
 	Tasks::reschedule();
+
+	digitalWrite(leds[id], LOW);
 }
 
-class Philosopher: public Task<40> {
+class Philosopher: public Task<60> {
 public:
 	void setup() {
 		_id = ids++;
