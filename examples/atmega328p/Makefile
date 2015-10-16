@@ -2,6 +2,7 @@ IDE_HOME := /usr/local/arduino
 BOARD := uno
 #SKETCH := Blink.ino
 #SKETCH := Devices.ino
-SKETCH := Signal.ino
+#SKETCH := Signal.ino
+SKETCH := Philosophers.ino
 CXXFLAGS = -fno-threadsafe-statics
 include arduino15.mk
