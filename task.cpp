@@ -1,5 +1,7 @@
 #include <stdint.h>
 #include <setjmp.h>
+
+#include <Arduino.h>
 #include "task.h"
 
 task *task_queue::remove() {
@@ -45,4 +47,12 @@ void task::entry() {
 	t->setup();
 	for (;;)
 		t->loop();
+}
+
+void Tasks::delay(unsigned long ms) {
+	volatile unsigned long now = millis();
+	while (millis() - now < ms) {
+		ready(_curr);
+		reschedule();
+	}
 }

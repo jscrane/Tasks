@@ -71,6 +71,8 @@ public:
 
 	static void reschedule(void);
 
+	static void delay(unsigned long ms);
+
 	/*
 	 * sets a handler to be called when no task is runnable,
 	 * by default (on ATtiny at least) the processor will jump
