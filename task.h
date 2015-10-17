@@ -2,11 +2,13 @@
 #define __TASK_H__
 
 typedef void (*runnable)(void);
+void timer_sleep(void);
 
 class task {
 public:
 	// FIXME: clean up access permissions
 	struct task *next;
+	unsigned long wake;
 
 	inline int save() { return setjmp(_context); }
 	inline void restore() { longjmp(_context, 1); }
@@ -41,8 +43,11 @@ public:
 
 	void add(task *t);
 
+	void insert(task *p, task *t);
+
 	inline bool empty() { return _head == 0; }
 
+	inline task *head() { return _head; }
 private:
 	task *_head, *_tail;
 };
