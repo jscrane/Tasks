@@ -5,7 +5,7 @@
 
 Semaphore forks[MAX];
 static byte ids = 1;
-static byte leds[] = { LED1, LED2, LED3, LED4, LED5, LED6, LED7, LED8 };
+static byte leds[] = { LED1, LED2, LED3, LED4, LED5 };
 
 void eating(byte id, byte weight) {
 	Serial.print("Philosopher ");
