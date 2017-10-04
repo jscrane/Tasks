@@ -1,0 +1,29 @@
+{
+  "name": "Tasks",
+  "authors": 
+  [
+    {
+      "name": "Stephen Crane",
+      "email": "jscrane@gmail.com",
+      "url": "https://github.com/jscrane"
+    }
+  ],
+  "version": "1.0",
+  "description" : "Arduino Task library",
+  "keywords": "avr, Arduino",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/jscrane/Tasks.git"
+  },
+  "frameworks": ["arduino"],
+  "platforms": ["atmelavr"],
+  "export": 
+  {
+    "include": "src"
+  },
+  "build":
+  {
+    "srcFilter": "+<src/>"
+  }
+}
