@@ -19,7 +19,7 @@ class Blink: public Task<128> {
 void setup() {
 	serial.begin(115200);
 	Tasks::init();
-	Tasks::ready(blink);
+	Tasks::start(blink);
 	pinMode(0, OUTPUT);
 }
 

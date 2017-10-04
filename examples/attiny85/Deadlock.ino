@@ -27,7 +27,7 @@ void setup() {
 	serial.begin(115200);
 	serial.println("hello world");
 	Tasks::init();
-	Tasks::ready(deadlock);
+	Tasks::start(deadlock);
 	Tasks::set_idle_handler(on_deadlock);
 	pinMode(0, OUTPUT);
 }
