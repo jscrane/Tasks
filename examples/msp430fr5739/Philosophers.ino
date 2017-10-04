@@ -5,7 +5,7 @@
 
 Semaphore forks[MAX];
 static byte ids = 1;
-static byte leds[] = { LED1, LED2, LED3, LED4, LED5, LED6, LED7, LED8 };
+static byte leds[] = { LED1, LED2, LED3, LED4, LED5 };
 
 void eating(byte id, byte weight) {
 	Serial.print("Philosopher ");
@@ -15,14 +15,12 @@ void eating(byte id, byte weight) {
 
 	digitalWrite(leds[id], HIGH);
 
-	delay(500);
-	Tasks::ready(Tasks::current());
-	Tasks::reschedule();
+	Tasks::delay(500);
 
 	digitalWrite(leds[id], LOW);
 }
 
-class Philosopher: public Task<60> {
+class Philosopher: public Task<50> {
 public:
 	void setup() {
 		_id = ids++;
@@ -46,7 +44,9 @@ Philosopher philosophers[MAX-1];
 
 void setup() {
 	Serial.begin(9600);
+
 	Tasks::init();
+	Tasks::set_idle_handler(timer_sleep);
 	for (int i = 0; i < MAX; i++) {
 		forks[i].signal();
 		pinMode(leds[i], OUTPUT);
