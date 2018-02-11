@@ -4,6 +4,7 @@
 template<class T> class Channel {
 public:
 	void out(T &t) {
+		Atomic block;
 		if (_t)
 			*_arrive() = t;
 		else
@@ -11,6 +12,7 @@ public:
 	}
 
 	void in(T &t) {
+		Atomic block;
 		if (_t)
 			t = *_arrive();
 		else
