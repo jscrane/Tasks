@@ -4,6 +4,9 @@
 #elif defined(__MSP430FR5739__)
 #define SERIAL 	9600
 
+#elif defined(__MSP430G2553__)
+#define SERIAL 	9600
+
 #else
 #error "Unsupported architecture!"
 

@@ -2,7 +2,7 @@
 #define LED	13
 #define SERIAL 	115200
 
-#elif defined(__MSP430FR5739__)
+#elif defined(__MSP430FR5739__) || defined(__MSP430G2553__)
 #define LED	RED_LED
 #define SERIAL 	9600
 

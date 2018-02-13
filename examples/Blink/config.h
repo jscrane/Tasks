@@ -6,6 +6,9 @@
 #define LED	RED_LED
 #define SERIAL 	9600
 
+#elif defined(__MSP430G2553__)
+#define LED	GREEN_LED
+
 #elif defined(__AVR_ATtiny85__)
 #define LED	0
 
