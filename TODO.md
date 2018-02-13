@@ -1,5 +1,5 @@
 To do:
 ======
 - per-thread sleeping (pseudo device for select time)
-- fix examples for Arduino/Energia
+- timer_sleep is default deadlock handler?
 - buffered channels: select and selectable
