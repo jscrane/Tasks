@@ -2,8 +2,7 @@
 #include <setjmp.h>
 #include "task.h"
 
-#if defined(__AVR_ATmega328__) || defined(__AVR_ATmega328P__) \
- || defined(__AVR_ATmega168__) || defined(__AVR_ATmega168P__)
+#if defined(__AVR_ATmega328__) || defined(__AVR_ATmega328P__)
 
 void task::create(void *stack) {
 	setjmp(_context);
@@ -37,5 +36,5 @@ void task::create(void *stack) {
 }
 
 #else
-#error "Unknown arch!"
+#error "Unsupported architecture!"
 #endif
