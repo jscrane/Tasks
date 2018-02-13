@@ -1,7 +1,8 @@
 Devices
 -------
 
-This sketch shows how tasks may be used with the Interrupted library.
+This sketch shows how tasks may be used with 
+[Interrupted](http://github.com/jscrane/Interrupted).
 
 Two tasks cooperate to flash an led. The ticker waits on a timer
 interrupt and signals the shared semaphore when it occurs. The main
