@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <stdint.h>
 #include <setjmp.h>
-#include "atomic.h"
 #include "task.h"
 
 static task_queue delaying;
@@ -21,7 +20,6 @@ void task_queue::insert(task *p, task *t) {
 #define MAX_DELAY       0xf000000
 
 void Tasks::delay(unsigned long ms) {
-	Atomic block;
 	unsigned long now = millis();
 	task *p, *q;
 	for (p = 0, q = delaying.head(); q; p = q, q = q->next) {
