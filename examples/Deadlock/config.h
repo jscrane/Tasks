@@ -8,6 +8,7 @@
 
 #elif defined(__AVR_ATtiny85__)
 #define LED	0
+#undef SERIAL
 
 #else
 #error "Unsupported architecture!"

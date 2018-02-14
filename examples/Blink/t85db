@@ -1,0 +1,4 @@
+BOARD = t85db
+CXXFLAGS = -fno-threadsafe-statics
+
+include arduino-tiny.mk

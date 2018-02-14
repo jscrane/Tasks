@@ -1,0 +1,4 @@
+BOARD = uno
+CXXFLAGS = -fno-threadsafe-statics
+
+include arduino15.mk

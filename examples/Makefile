@@ -1,14 +1,8 @@
-archs := atmega328p attiny85 msp430fr5739
-examples := $(foreach a,$(archs),$(wildcard $a/*.ino))
+ALL = Blink Channel Deadlock Devices Philosophers Signal
+BOARDS = t85db uno fr5739 g2553
+TARGETS = $(foreach a, $(ALL), $(foreach b,$(BOARDS), $(a)/$(b).foo))
 
-all: $(examples)
+all: $(TARGETS)
 
-$(examples):
-	$(MAKE) -C $(dir $@) SKETCH=$(notdir $@) all
-
-clean: $(archs)
-
-$(archs):
-	$(MAKE) -C $@ clean
-
-.PHONY: all $(examples) $(archs) clean
+%.foo:
+	make -C $(dir $@) -f $(notdir $(basename $@)) clean all
