@@ -6,7 +6,7 @@
 #define TIMER	1
 
 Semaphore sem(0);
-Watchdog timer(TIMER, 1);
+Watchdog timer(TIMER, TIME);
 
 class Ticker: public Task<128> {
 

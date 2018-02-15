@@ -9,7 +9,7 @@
 #define SIG	2
 
 Signal signal(SIG);
-Watchdog timer(TIMER, 2);
+Watchdog timer(TIMER, TIME);
 
 class Ticker: public Task<100> {
 
