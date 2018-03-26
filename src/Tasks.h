@@ -7,6 +7,8 @@
 #include "chan.h"
 
 #include "taskdevices.h"
-#include "pseudo.h"
+#include "selectable.h"
+#include "sig.h"
 
+#include "runner.h"
 #endif

@@ -4,18 +4,7 @@
 #include "config.h"
 
 Semaphore off(1), on(0);
-
-class Blink: public Task<128> {
-	void loop() {
-		on.wait();
-#ifdef SERIAL
-		Serial.println('0');
-#endif
-		digitalWrite(LED, LOW);
-		Tasks::delay(1000);
-		off.signal();
-	}
-} blink;
+Runner<128> blink;
 
 void setup() {
 #ifdef SERIAL
@@ -23,11 +12,20 @@ void setup() {
 #endif
 	Tasks::init();
 	Tasks::set_idle_handler(timer_sleep);
-	Tasks::start(blink);
 	pinMode(LED, OUTPUT);
 }
 
 void loop() {
+	blink.run([]() {
+		on.wait();
+#ifdef SERIAL
+		Serial.println('0');
+#endif
+		digitalWrite(LED, LOW);
+		Tasks::delay(500);
+		off.signal();
+	});
+
 	off.wait();
 #ifdef SERIAL
 	Serial.println('1');
