@@ -4,31 +4,42 @@
 #include "config.h"
 
 Channel<char> ch(1);
+SerialOut serial(3, 115200);
+TaskDevices devices;
+
+const char *s = "hello world\r\n";
 
 class Printer: public Task<128> {
+	const char *t;
+
+	void setup() {
+		t = s;
+	}
+
 	void loop() {
-		char c;
-		ch.in(c);
-#ifdef SERIAL
-		Serial.print(c);
-#endif
+		if (!*t)
+			t = s;
+		char c = *t++;
+		ch.out(c);
 	}
 } print;
 
 void setup() {
-#ifdef SERIAL
-	Serial.begin(SERIAL);
-#endif
+	serial.enable();
+	devices.add(serial);
+	devices.add(ch);
+	devices.begin();
+
 	Tasks::init();
-	Tasks::set_idle_handler(timer_sleep);
+	Tasks::set_idle_handler(TaskDevices::on_no_task_runnable);
 	Tasks::start(print);
 }
 
 void loop() {
-	const char *s = "hello world\r\n";
-	char c;
-	while (c = *s++) {
-		ch.out(c);
-		Tasks::delay(1000);
+	char c[2];
+	c[1] = '\0';
+	if (devices.select() == 1) {
+		ch.in(c[0]);
+		serial.write(c);
 	}
 }
