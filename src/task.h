@@ -80,8 +80,13 @@ public:
 
 	/*
 	 * sets a handler to be called when no task is runnable,
-	 * by default (on ATtiny at least) the processor will jump
-	 * to the reset vector.
+	 *
+	 * by default (on AVR at least) the processor will jump
+	 * to the reset vector (at address 0x0000).
+	 * this can cause confusing behaviour!
+	 *
+	 * if the handler does any I/O, it should enable interrupts
+	 * first.
 	 */
 	static inline void set_idle_handler(runnable idle_handler) {
 		_idle_handler = idle_handler;
