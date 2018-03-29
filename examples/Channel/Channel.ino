@@ -3,7 +3,7 @@
 
 #include "config.h"
 
-Channel<char> ch;
+Channel<char> ch(1);
 
 class Printer: public Task<128> {
 	void loop() {
@@ -20,6 +20,7 @@ void setup() {
 	Serial.begin(SERIAL);
 #endif
 	Tasks::init();
+	Tasks::set_idle_handler(timer_sleep);
 	Tasks::start(print);
 }
 
@@ -28,6 +29,6 @@ void loop() {
 	char c;
 	while (c = *s++) {
 		ch.out(c);
-		delay(1000);
+		Tasks::delay(1000);
 	}
 }

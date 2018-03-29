@@ -4,11 +4,11 @@
 #include <setjmp.h>
 #include "task.h"
 #include "sem.h"
-#include "chan.h"
 
 #include "taskdevices.h"
 #include "selectable.h"
 #include "sig.h"
+#include "chan.h"
 
 #include "runner.h"
 #endif
