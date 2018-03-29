@@ -4,9 +4,7 @@
 #include "task.h"
 #include "taskdevices.h"
 
-#define MODE_NONE	0xffff
-
-unsigned TaskDevices::_mode = MODE_NONE;
+unsigned TaskDevices::_mode = SLEEP_MODE_NONE;
 task_queue TaskDevices::_sleeping;
 bool TaskDevices::_soft_irq;
 
@@ -14,7 +12,7 @@ bool TaskDevices::_soft_irq;
  * when none of a task's devices is ready: put it to sleep and reschedule.
  */
 void TaskDevices::idle(unsigned mode) {
-	_mode = _mode == MODE_NONE? mode: Devices::compare_modes(_mode, mode);
+	_mode = Devices::compare_modes(_mode, mode);
 
 	_sleeping.add(Tasks::current());
 
@@ -33,5 +31,5 @@ void TaskDevices::on_no_task_runnable() {
 		Tasks::ready(_sleeping.remove());
 
 	_soft_irq = false;
-	_mode = MODE_NONE;
+	_mode = SLEEP_MODE_NONE;
 }
