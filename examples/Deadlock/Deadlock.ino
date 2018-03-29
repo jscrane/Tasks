@@ -16,13 +16,16 @@ public:
 } deadlock;
 
 void on_deadlock() {
+	interrupts();
+	for (;;) {
 #ifdef SERIAL
-	Serial.println(F("deadlock!"));
+		Serial.println(F("deadlock!"));
 #endif
-	digitalWrite(LED, HIGH);
-	delay(200);
-	digitalWrite(LED, LOW);
-	delay(300);
+		digitalWrite(LED, HIGH);
+		delay(200);
+		digitalWrite(LED, LOW);
+		delay(300);
+	}
 }
 
 void setup() {
