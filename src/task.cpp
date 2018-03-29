@@ -3,6 +3,8 @@
 #include "task.h"
 
 task *task_queue::remove() {
+	if (empty())
+		return 0;
 	task *t = _head;
 	_head = t->next;
 	if (empty())
